@@ -1,0 +1,11 @@
+# /etc/systemd/system/g_mass_storage.service
+
+[Unit]
+Description=Enable mass storage through USB.
+
+[Service]
+Type=simple
+ExecStart=/sbin/modprobe g_mass_storage file=/media/usb-data/data.bin stall=0
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,1 @@
+00 * * * * /home/eriq/pi-frame/sync.sh > /tmp/frame-sync-log.txt 2> /tmp/frame-sync-log.err
