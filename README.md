@@ -1,29 +1,29 @@
-## PI Frame
+# PI Frame
 
 Gaol: make a USB device for a digital picture frame that syncs with some images stored online.
 
 Requirements:
-    - Digital Picture Frame
-    - Syncing USB Drive
-    - Accessible Online Image Store
+- Digital Picture Frame
+- Syncing USB Drive
+- Accessible Online Image Store
 
-### Digital Picture Frame
+## Digital Picture Frame
 
 The most important thing for our digital picture frame (aside from working at all),
 is that it needs to be able to recognize when new images are there without us needing to manually power cycle the frame
 or unplug/replug the USB.
 
-I was originally gifted this frame:
+I was originally gifted this frame:  
 Aluratek ADPF08SF: https://aluratek.com/eight-inch-digital-photo-frame
 This frame seemed broken and could not load any images from any storage devices (USD or SD).
 
-This one I later purchased seems to work pretty well, I am really happy with it:
+This one I later purchased seems to work pretty well, I am really happy with it:  
 https://www.amazon.com/gp/product/B07TZ43YJQ
 
 The more types/sizes of images the frame supports, the better.
 But, this is not very important.
 
-### Syncing USB Drive
+## Syncing USB Drive
 
 This is the crux of the entire project.
 I decided to do this using a Raspberry PI Zero.
@@ -35,8 +35,8 @@ We will have to configure the Wifi for wherever the frame will stay.
 With infinite money, it would be really interesting to use a pay-as-you-go data plan and 4G.
 
 The masquerade the PI as a USB, we can just use the `g_mass_storag` kernel module:
-    - https://linux-sunxi.org/USB_Gadget/Mass_storage
-    - https://magpi.raspberrypi.org/articles/pi-zero-w-smart-usb-flash-drive
+- https://linux-sunxi.org/USB_Gadget/Mass_storage
+- https://magpi.raspberrypi.org/articles/pi-zero-w-smart-usb-flash-drive
 
 This let's us dd up a file that we can pretend it a USB device:
 ```
@@ -60,6 +60,7 @@ sudo modprobe g_mass_storage file=/media/usb-data/data.bin stall=0
 ```
 
 To stop being a USB, just unload the module:
+```
 sudo rmmod g_mass_storage
 ```
 
@@ -79,7 +80,7 @@ ExecStart=/sbin/modprobe g_mass_storage file=/media/usb-data/data.bin stall=0
 
 [Install]
 WantedBy=multi-user.target
-`
+```
 
 Then just remember to enable to unit:
 ```
@@ -98,7 +99,7 @@ I put the above commands in the sudoers file so I don't need a passowrd for them
 eriq ALL=(ALL) NOPASSWD: /sbin/rmmod g_mass_storage , /bin/systemctl restart g_mass_storage.service
 ```
 
-### Accessible Online Image Store
+## Accessible Online Image Store
 
 My first candidate was Google Photos, since you can just use a shared album.
 But it was a huge pain.
